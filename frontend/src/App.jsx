@@ -1,27 +1,24 @@
-import { useState,useEffect } from 'react'
-import './App.css'
-
-//  importing CreateToDo file
-import {CreateToDo} from './components/CreateToDo'
-import {ToDos} from './components/ToDos'
-function App() {
-  const [todos,setTodos] = useState([])
-  useEffect(() => {
-    fetch("http://localhost:3000/todos")
-      .then(async (res) => {
-        const json = await res.json();
-        setTodos(json.todos);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch:", err);
-      });
-  }, []);
+import {BrowserRouter,Routes,Route}  from "react-router-dom";
+import {Signin} from "./pages/signin"
+import {Signup} from "./pages/Signup"
+import {Landing} from "./pages/Landing"
+import {Dashboard} from "./pages/Dashboard"
+import {ToDos} from "./components/ToDos"
+function App(){
   return (
- <div>
-   <CreateToDo></CreateToDo>
-   <ToDos todos={todos}></ToDos>
- </div>
+    <>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/Dashboard"  element={<Dashboard/>}></Route>
+      <Route path="/Signin"  element={<Signin/>}></Route>
+      <Route path="/Signup"  element={<Signup/>}></Route>
+      <Route path="/"  element={<Landing/>}></Route>
+      <Route path="/ToDos"  element={<ToDos/>}></Route>
+    </Routes>
+    </BrowserRouter>
+    </>
   )
 }
+
 
 export default App

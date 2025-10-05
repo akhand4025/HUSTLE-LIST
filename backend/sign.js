@@ -18,7 +18,7 @@ router.post('/signup',async function(req,res){
     try{
       const existname= await User.findOne({userName:name});
       if(existname){
-      return  res.status(411).json({msge:"username already exist"});
+      return  res.status(400).json({msge:"username already exist"});
       }
 
       const hashedpass =  await bcrypt.hash(password,10);
@@ -33,11 +33,11 @@ router.post('/signup',async function(req,res){
 
     //   generate token here 
      const token = jwt.sign({id:newUser._id},JWT_SECRET);
-     res.json({token});
+     return res.status(200).json({token});
 
     }
     catch(err){
-        res.status(500).json({msge:"Something went wrong"});
+        res.status(500).json({msge:"Something went wrong"+err});
     }
 })
 
@@ -62,7 +62,7 @@ router.post('/signin',async function(req,res){
      return  res.status(401).json({msge:"invalid password"});
     }
     const token=  jwt.sign({id:existname.id},JWT_SECRET);
-    res.json({token});
+   return res.status(200).json({token});
   } 
 
 
